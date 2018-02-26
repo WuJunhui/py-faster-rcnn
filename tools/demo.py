@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 # --------------------------------------------------------
 # Faster R-CNN
@@ -85,7 +84,7 @@ def demo(net, image_name):
            '{:d} object proposals').format(timer.total_time, boxes.shape[0])
 
     # Visualize detections for each class
-    CONF_THRESH = 0.8
+    CONF_THRESH = 0.5
     NMS_THRESH = 0.3
     for cls_ind, cls in enumerate(CLASSES[1:]):
         cls_ind += 1 # because we skipped background
@@ -122,6 +121,10 @@ if __name__ == '__main__':
     caffemodel = os.path.join(cfg.DATA_DIR, 'faster_rcnn_models',
                               NETS[args.demo_net][1])
 
+
+    #rootdir ='/export/home/wjh/py-faster-rcnn/'
+    #prototxt = rootdir + 'workdir_shuf/test.prototxt'
+    #caffemodel = rootdir + 'workdir_shuf/output/voc_2007_trainval/zf_faster_rcnn_iter_3000.caffemodel'
     if not os.path.isfile(caffemodel):
         raise IOError(('{:s} not found.\nDid you run ./data/script/'
                        'fetch_faster_rcnn_models.sh?').format(caffemodel))
