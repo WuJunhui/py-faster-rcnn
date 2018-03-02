@@ -9,9 +9,16 @@
 
 __sets = {}
 
+from datasets.pascal_vocfg import pascal_vocfg
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
 import numpy as np
+
+# Set up vocfg_<year>_<split> for my own data
+for year in [ '2018']:
+    for split in ['train', 'val', 'trainval', 'test']:
+        name = 'vocfg_{}_{}'.format(year, split)
+        __sets[name] = (lambda split=split, year=year: pascal_vocfg(split, year))
 
 # Set up voc_<year>_<split> using selective search "fast" mode
 for year in ['2007', '2012']:
