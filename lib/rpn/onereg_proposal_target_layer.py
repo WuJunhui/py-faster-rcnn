@@ -80,32 +80,15 @@ class OneProposalTargetLayer(caffe.Layer):
         # bbox_targets
         top[1].reshape(*bbox_targets.shape)
         top[1].data[...] = bbox_targets
-        #print '===bbox_targets\n'
-        ##np.set_printoptions(threshold='nan')
-        #print bbox_targets
-        #print bbox_targets.shape
-        #raw_input()
 
         # bbox_inside_weights
         top[2].reshape(*bbox_inside_weights.shape)
         top[2].data[...] = bbox_inside_weights
 
-       # print '===inside_weights\n'
-       # print bbox_inside_weights
-       # ind_max=bbox_inside_weights.argmax()
-       # print ind_max
-       # np.set_printoptions(threshold='nan')
-       # print bbox_inside_weights[ind_max-4:ind_max+8]
-       # print bbox_inside_weights.shape
 
         # bbox_outside_weights
         top[3].reshape(*bbox_inside_weights.shape)
         top[3].data[...] = np.array(bbox_inside_weights > 0).astype(np.float32)
-        #print '===outside_weights\n'
-        #print top[4].data[...]
-        #print top[4].data[...].argmax()
-        #print top[4].data[...].shape
-        #raw_input()
 
 
     def backward(self, top, propagate_down, bottom):
@@ -140,11 +123,6 @@ def _compute_targets(ex_rois, gt_rois):
     assert gt_rois.shape[1] == 4
 
     targets = bbox_transform(ex_rois, gt_rois)
-    #print '===ex_rois, gt_rois, targets'
-    #print ex_rois
-    #print gt_rois
-    #print targets
-    #raw_input()
 
 
 
@@ -161,13 +139,6 @@ def _sample_rois(all_rois, gt_boxes):
     examples.
     """
     rois = all_rois.copy()
-    #print '===rois'
-    #print rois
-    #print rois.shape
-    #print '===gt_boxes'
-    #print gt_boxes[0:1,:4]
-    #print gt_boxes[0:1,:4].shape
-    #raw_input()
     #===wjh in case gt_boxes num is more than 1
     bbox_target_data = _compute_targets(
             rois[:, 1:5], gt_boxes[0:1, :4])
