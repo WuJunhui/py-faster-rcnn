@@ -76,8 +76,8 @@ class OneProposalLayer(caffe.Layer):
         im_info = bottom[0].data[0, :]
         x1=0
         y1=0
-        x2=im_info[1]
-        y2=im_info[0]
+        x2=im_info[1]-1
+        y2=im_info[0]-1
 
 
         #if DEBUG:
@@ -162,10 +162,6 @@ class OneProposalLayer(caffe.Layer):
         blob=np.array([[0,x1,y1,x2,y2]],dtype=np.float32)
         top[0].reshape(*(blob.shape))
         top[0].data[...] = blob
-        #print '==onereg_proposal top[0]'
-        #print top[0].data[...]
-        #print top[0].data[...].shape
-        #raw_input()
 
 
         # [Optional] output scores blob
