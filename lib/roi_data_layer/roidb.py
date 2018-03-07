@@ -41,7 +41,8 @@ def prepare_roidb(imdb):
         assert all(max_classes[zero_inds] == 0)
         # max overlap > 0 => class should not be zero (must be a fg class)
         nonzero_inds = np.where(max_overlaps > 0)[0]
-        assert all(max_classes[nonzero_inds] != 0)
+        if not cfg.TRAIN.HAS_CLS:
+            assert all(max_classes[nonzero_inds] != 0)
 
 def add_bbox_regression_targets(roidb):
     """Add information needed to train bounding-box regressors."""

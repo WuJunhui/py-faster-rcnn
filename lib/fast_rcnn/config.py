@@ -71,7 +71,7 @@ __C.TRAIN.BBOX_REG = True
 __C.TRAIN.BBOX_THRESH = 0.5
 
 # Iterations between snapshots
-__C.TRAIN.SNAPSHOT_ITERS = 1000
+__C.TRAIN.SNAPSHOT_ITERS = 50000
 
 # solver.prototxt specifies the snapshot path prefix, this adds an optional
 # infix to yield the path: <prefix>[_<infix>]_iters_XYZ.caffemodel
@@ -98,6 +98,10 @@ __C.TRAIN.PROPOSAL_METHOD = 'selective_search'
 # tall and thin or both short and wide) in order to avoid wasting computation
 # on zero-padding.
 __C.TRAIN.ASPECT_GROUPING = True
+
+#=== one branch to cls, class label start from 0
+__C.TRAIN.HAS_CLS = False
+
 
 # Use RPN to detect objects
 __C.TRAIN.HAS_RPN = False
@@ -198,6 +202,10 @@ __C.ROOT_DIR = osp.abspath(osp.join(osp.dirname(__file__), '..', '..'))
 
 # Data directory
 __C.DATA_DIR = osp.abspath(osp.join(__C.ROOT_DIR, 'data'))
+
+# ==Data directory for cls
+__C.CLS_DATA_DIR = '/export/home/wjh/project_npx/data'
+
 
 # Model directory
 __C.MODELS_DIR = osp.abspath(osp.join(__C.ROOT_DIR, 'models', 'pascal_voc'))
