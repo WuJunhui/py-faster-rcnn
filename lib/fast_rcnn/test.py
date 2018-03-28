@@ -246,6 +246,44 @@ def im_detectreg(net, im, boxes=None):
 
     return pred_boxes
 
+def im_detectcls(net, im, boxes=None):
+    """Detect object classes in an image given object proposals.
+
+    Arguments:
+        net (caffe.Net): Fast R-CNN network to use
+        im (ndarray): color image to test (in BGR order)
+        boxes (ndarray): R x 4 array of object proposals or None (for RPN)
+
+    Returns:
+        scores (ndarray): R x K array of object class scores (K includes
+            background as object category 0)
+        boxes (ndarray): R x (4*K) array of predicted bounding boxes
+    """
+    blobs, im_scales = _get_blobs(im, boxes)
+
+    im_blob = blobs['data']
+    blobs['im_info'] = np.array(
+        [np.hstack((im_blob.shape[2], im_blob.shape[3], im_scales[0]))],
+        dtype=np.float32)
+
+    # reshape network inputs
+    net.blobs['data'].reshape(*(blobs['data'].shape))
+    net.blobs['im_info'].reshape(*(blobs['im_info'].shape))
+
+    # do forward
+    forward_kwargs = {'data': blobs['data'].astype(np.float32, copy=False)}
+    forward_kwargs['im_info'] = blobs['im_info'].astype(np.float32, copy=False)
+    blobs_out = net.forward(**forward_kwargs)
+
+    assert len(im_scales) == 1, "Only single-image batch implemented"
+
+    # output is not named 'bbox_pred' and train snapshot saving is not modified,
+    # so scale means and stds
+    # TODO add means and stds global average
+    cls_prob = blobs_out['cls_prob']
+
+    return cls_prob
+
 
 
 
