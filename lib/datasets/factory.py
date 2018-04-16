@@ -9,11 +9,19 @@
 
 __sets = {}
 
+from datasets.pascal_voclogo import pascal_voclogo
 from datasets.pascal_voccls import pascal_voccls
 from datasets.pascal_vocfg import pascal_vocfg
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
 import numpy as np
+
+# Set up voclogo_<year>_<split> for my own data
+for year in ['2018']:
+    for split in ['train', 'val', 'trainval', 'test']:
+        name = 'voclogo_{}_{}'.format(year, split)
+        __sets[name] = (lambda split=split, year=year: pascal_voclogo(split, year))
+
 
 # Set up voccls_<year>_<split> for my own data
 for year in [ '2018']:
